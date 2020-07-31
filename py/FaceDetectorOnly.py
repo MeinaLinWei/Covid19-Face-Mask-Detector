@@ -2,10 +2,16 @@
 import cv2
 from random import randrange
 
-# load some pre-trained  data of front-facing faces using OpenCV (haar cascade algorithm)
+# load some pre-trained data of front-facing faces using OpenCV (haar cascade algorithm)
 trained_face_data = cv2.CascadeClassifier('../xml/haarcascade_frontalface_default.xml')
 
+# load some pre-trained data of mouths using OpenCV
+trained_mouth_data = cv2.CascadeClassifier('../xml/haarcascade_mcs_mouth.xml')
 
+# load some pre-trained data of noses using OpenCV
+trained_nose_data = cv2.CascadeClassifier('../xml/haarcascade_mcs_nose.xml')
+
+"""
 # Detect faces from images
 # choose an image to detect the face (imread: image read, an OpenCV furnction)
 img = cv2.imread('../img/picture1.png')
@@ -35,18 +41,18 @@ cv2.imshow('Covid19-Mask-Detector', img)
 cv2.waitKey()
 
 print("It is working!")
-
 """
+
 # Detect faces from a video
 
 # capture video from webcam
 # 0 is the default value and it reads from the webcam
 # cv2.VideoCapture('img/video1.mp4') will read from the video with name video1.mp4 
-webcam = cv2.VideoCapture(0) 
+vid = cv2.VideoCapture(0) 
 
 while True:
     # read current frame from video and returns 2 things: a boolean and the actual frame being read
-    successful_frame_read, frame = webcam.read()
+    successful_frame_read, frame = vid.read()
 
     # convert the frame to grayscale
     grayscale_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -57,13 +63,14 @@ while True:
     #detectMultiScale(): no matter the how small the face is, detectMultiScale() will still be able to detect the faces in the image. It is only looking for the overall composition of the face - relation between the eyes to the nose and to the mouth
     face_coordinates = trained_face_data.detectMultiScale(grayscale_frame) 
 
+
     # the for-loop will loop over the tuple 
     for (x, y, w, h) in face_coordinates:
         # draw rectangles around the faces
         # (img_in_color, (x, y), (x + width, y + height) , (Blue,Green,Red), thickness_of_rectangle)
         # randrange: provides any color between 0 and 256
         print(cv2.rectangle(frame, (x, y), (x+w,y+h), (0, 255, 0), 2)) 
+        print(cv2.putText(frame, 'Face detected', (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2))
 
-    cv2.imshow('Covid19-Mask-Detector', frame)
+    cv2.imshow('Face-Detector', frame)
     key = cv2.waitKey(1)
-"""
