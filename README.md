@@ -1,5 +1,5 @@
 # Covid19 Face Mask Detector
-This is a face mask detector built uding from Python3 and OpenCV.
+This is a face mask detector built using from Python3 and OpenCV.
 
 ## How to run Covid19 Face Mask Detector
 1. Clone the repository.
