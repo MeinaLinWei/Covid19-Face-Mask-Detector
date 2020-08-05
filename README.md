@@ -1,7 +1,7 @@
 # Covid19 Face Mask Detector
-This is a face mask detector made from Python and OpenCV.
+This is a face mask detector built uding from Python3 and OpenCV.
 
-## How to run Covid19 Face Mask Detector:
+## How to run Covid19 Face Mask Detector
 1. Clone the repository.
 
 2. Install OpenCV by running the following command in your terminal (Linux/Unix). If you already have OpenCV, you may skip this step.
