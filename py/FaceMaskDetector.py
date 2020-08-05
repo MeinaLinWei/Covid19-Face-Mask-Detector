@@ -1,9 +1,6 @@
 import cv2
 from random import randrange
 
-import cv2
-from random import randrange
-
 # load some pre-trained data of front-facing faces using OpenCV (haar cascade algorithm)
 trained_face_data = cv2.CascadeClassifier('../xml/haarcascade_frontalface_default.xml')
 
@@ -16,7 +13,7 @@ trained_nose_data = cv2.CascadeClassifier('../xml/haarcascade_mcs_nose.xml')
 # load some pre-trained data ofeyes using OpenCV
 trained_eye_data = cv2.CascadeClassifier('../xml/haarcascade_eye.xml')
 
-
+"""
 # Detect faces from images
 # choose an image to detect the face (imread: image read, an OpenCV furnction)
 img = cv2.imread('../img/picture6.jpg')
@@ -34,7 +31,6 @@ eye_coordinates = trained_eye_data.detectMultiScale(grayscaled_img)
 nose_coordinates = trained_nose_data.detectMultiScale(grayscaled_img) 
 mouth_coordinates = trained_mouth_data.detectMultiScale(grayscaled_img) 
 
-
 eyes = len(eye_coordinates)
 nose = len(nose_coordinates)
 mouth = len(mouth_coordinates)
@@ -44,7 +40,6 @@ for (x, y, w, h) in face_coordinates:
     # (img_in_color, (x, y), (x + width, y + height) , (Blue,Green,Red), thickness_of_rectangle)
     # randrange: provides any color between 0 and 256
     print(cv2.rectangle(img, (x, y), (x+w,y+h), (randrange(256), randrange(256), randrange(256)), 2))
-
 
 if (eyes != 0):
         if ((nose != 0) and (mouth != 0)):
@@ -77,9 +72,8 @@ cv2.imshow('Covid19-Mask-Detector', img)
 
 # pause the execution until any key is pressed
 cv2.waitKey()
-
-
 """
+
 # Detect faces from a video
 
 # capture video from webcam
@@ -97,27 +91,25 @@ while True:
     # detect faces and store the coordinates, width and height of the rectangle that contain the face.
     # only the top right coordinate of the rectangle will be given. With the width and the height, the rectangle can be drawn.
     # [[x y width height], [x, y, w, h], ... ] this is a list in another list
-    #detectMultiScale(): no matter the how small the face is, detectMultiScale() will still be able to detect the faces in the image. It is only looking for the overall composition of the face - relation between the eyes to the nose and to the mouth
+    # detectMultiScale(): no matter the how small the face is, detectMultiScale() will still be able to detect the faces in the image. 
+    # It is only looking for the overall composition of the face - relation between the eyes to the nose and to the mouth
     face_coordinates = trained_face_data.detectMultiScale(grayscale_frame) 
     mouth_coordinates = trained_mouth_data.detectMultiScale(grayscale_frame, 1.7, 11)
     nose_coordinates = trained_nose_data.detectMultiScale(grayscale_frame, 1.3, 5)
     eye_coordinates = trained_eye_data.detectMultiScale(grayscale_frame)
 
+    # length of tuples
     eyes = len(eye_coordinates)
     nose = len(nose_coordinates)
     mouth = len(mouth_coordinates)
 
-
+    # check if a mask is worn, if it is worn properly
     if (eyes != 0):
         if ((nose != 0) and (mouth != 0)):
             # the for-loop will loop over the tuple 
             for (x, y, w, h) in face_coordinates:
-                # draw rectangles around the faces
-                # (img_in_color, (x, y), (x + width, y + height) , (Blue,Green,Red), thickness_of_rectangle)
-                # randrange: provides any color between 0 and 256
                 print(cv2.rectangle(frame, (x, y), (x+w,y+h), (0, 0, 255), 2)) 
                 print(cv2.putText(frame, 'No mask detected', (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2))
-
 
         if ((nose == 0 ) and (mouth == 0)):
             for (x, y, w, h) in face_coordinates:
@@ -134,12 +126,5 @@ while True:
                 print(cv2.rectangle(frame, (x, y), (x+w,y+h), (0, 0, 255), 2)) 
                 print(cv2.putText(frame, 'Please cover your mouth also', (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.80 , (0, 0, 255), 2))
 
-
-    
-    
-
-
     cv2.imshow('Covid19-Mask-Detector', frame)
     key = cv2.waitKey(1)
-
-"""
